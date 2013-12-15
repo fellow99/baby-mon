@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	 xmlns:aop="http://www.springframework.org/schema/aop" xmlns:p="http://www.springframework.org/schema/p"
+	 xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	 xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/jdbc
+		http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
+	
+	<bean id="vfsComponent" class="com.fellow.component.vfs.DefaultVFSComponent">
+		<constructor-arg>
+			<map>
+				<entry key="servlet">
+					<bean class="com.fellow.component.vfs.servlet.ServletContextFileProvider">
+						<constructor-arg><bean class="org.springframework.web.context.support.ServletContextFactoryBean" /></constructor-arg>
+					</bean>
+				</entry>
+			</map>
+		</constructor-arg>
+		<constructor-arg>
+			<map>
+				<entry key="castor" value="servlet://WEB-INF/conf/castor/" />
+				<entry key="report" value="servlet://WEB-INF/report/" />
+				<entry key="ddl" value="servlet://WEB-INF/ddl/" />
+				<entry key="profiles" value="file://${profiles.path}" />
+			</map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="castorComponent" class="com.fellow.component.castor.DefaultCastorComponent" />
+	
+	
+	<bean id="jasperReportComponent" class="com.fellow.component.report.DefaultJasperReportComponent" />
+	
+</beans>

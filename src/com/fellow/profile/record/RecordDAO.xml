@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+<mapper namespace="com.fellow.profile.record.RecordDAO">
+
+	<select id="list" parameterType="map" resultType="upperCaseKeyMap">
+	 <![CDATA[  
+	select * from T_RECORD t
+		where 1=1
+	  ]]> 
+		<if test="RECORD_TYPE != null and RECORD_TYPE != ''">
+		and RECORD_TYPE = #{RECORD_TYPE}
+		</if>
+		<if test="RECORD_DATE_FROM != null">
+		and RECORD_DATE &gt;= #{RECORD_DATE_FROM}
+		</if>
+		<if test="RECORD_DATE_TO != null">
+		and RECORD_DATE &lt;= #{RECORD_DATE_TO}
+		</if>
+		order by RECORD_DATE desc
+	</select>
+
+	<select id="last" parameterType="string" resultType="upperCaseKeyMap">
+	 <![CDATA[  
+	select * from T_RECORD t
+		where 1=1
+	  ]]>
+	  	and RECORD_TYPE = #{RECORD_TYPE}
+		order by RECORD_DATE desc
+		limit 0,1
+	</select>
+
+	<select id="sum" parameterType="map" resultType="float">
+	 <![CDATA[  
+	select sum(AMOUNT) AMOUNT from V_DATE_RECORD t
+		where 1=1
+	  ]]> 
+		<if test="RECORD_TYPE != null and RECORD_TYPE != ''">
+		and RECORD_TYPE = #{RECORD_TYPE}
+		</if>
+		<if test="RECORD_DATE_FROM != null">
+		and RECORD_DATE &gt;= (#{RECORD_DATE_FROM} + 1000*60*60*8) / (1000*60*60*24) * (1000*60*60*24)
+		</if>
+		<if test="RECORD_DATE_TO != null">
+		and RECORD_DATE &lt;= (#{RECORD_DATE_TO} + 1000*60*60*8) / (1000*60*60*24) * (1000*60*60*24)
+		</if>
+		group by RECORD_DATE, RECORD_TYPE
+	</select>
+	
+	
+ 	<insert id="insert" parameterType="map">
+	 <![CDATA[
+	insert into T_RECORD(RECORD_DATE, RECORD_TYPE, AMOUNT, INFO)
+		values(#{RECORD_DATE}, #{RECORD_TYPE}, #{AMOUNT,jdbcType=NUMERIC}, #{INFO,jdbcType=VARCHAR})
+	  ]]> 
+ 	</insert>
+	
+	
+ 	<update id="delete" parameterType="map">
+	 <![CDATA[
+	delete from T_RECORD
+		where RECORD_TYPE = #{RECORD_TYPE} and ID = #{ID}
+	  ]]> 
+ 	</update>
+</mapper> 

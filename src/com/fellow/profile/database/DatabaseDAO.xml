@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+<mapper namespace="com.fellow.profile.record.DatabaseDAO">
+
+	<select id="versionExists" resultType="String">
+		SELECT name FROM sqlite_master WHERE type='table' AND name='T_VERSION'
+	</select>
+
+	<select id="getVersion" resultType="int">
+		SELECT VERSION FROM T_VERSION ORDER BY VERSION desc limit 1
+	</select>
+	
+	
+ 	<update id="ddl" parameterType="map">
+		${sqlstring}
+ 	</update>
+ 	
+ 	
+ 	<update id="updateVersion" parameterType="int">
+		insert into T_VERSION(VERSION) values(#{version})
+ 	</update>
+</mapper> 
