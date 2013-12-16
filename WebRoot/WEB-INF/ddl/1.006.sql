@@ -1,0 +1,6 @@
+CREATE VIEW [V_RECORD] AS 
+select
+t.*,
+(RECORD_DATE + (1000*60*60*8)) % (1000*60*60*24) RECORD_TIME
+from T_RECORD t;
+
