@@ -1,0 +1,28 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<div>
+	<div style="float:left;width:20px">&nbsp;</div>
+	<div style="float:left;width:60px">喝奶：</div>
+	<div style="float:left;width:70px">[{toDatetime($T.lastMilk.RECORD_DATE, 'hh:mm')}]</div>
+	<div style="float:left;width:100px">{$T.lastMilk.AMOUNT}ML</div>
+	<div style="float:left;"><a href="record-milk.jsp">喝奶>></a></div>
+	<div style="clear:both"></div>
+	<div style="width:100px;height:15px;background-image: url(。。/images/system_bottom_bg.gif);background-repeat: repeat-x;background-position: left top;"></div>
+</div>
+<div>
+	<div style="float:left;width:20px">&nbsp;</div>
+	<div style="float:left;width:60px">大便：</div>
+	<div style="float:left;width:70px">[{toDatetime($T.lastShit.RECORD_DATE, 'hh:mm')}]</div>
+	<div style="float:left;width:100px">{toAmount('shit', $T.lastShit.AMOUNT)}</div>
+	<div style="float:left;"><a href="record-shit.jsp">大便>></a></div>
+	<div style="clear:both"></div>
+	<div style="width:100px;height:15px;background-image: url(。。/images/system_bottom_bg.gif);background-repeat: repeat-x;background-position: left top;"></div>
+</div>
+<div>
+	<div style="float:left;width:20px">&nbsp;</div>
+	<div style="float:left;width:60px">&nbsp;</div>
+	<div style="float:left;width:70px">&nbsp;</div>
+	<div style="float:left;width:100px">&nbsp;</div>
+	<div style="float:left;"><a href="record-info.jsp">信息>></a></div>
+	<div style="clear:both"></div>
+	<div style="width:100px;height:15px;background-image: url(。。/images/system_bottom_bg.gif);background-repeat: repeat-x;background-position: left top;"></div>
+</div>

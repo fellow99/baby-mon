@@ -1,0 +1,21 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+{#param name=date value=''}
+{#foreach $T.records as record}
+	{#if $P.date != toDatetime($T.record.RECORD_DATE, 'yyyy-MM-dd')}
+		{#param name=date value=toDatetime($T.record.RECORD_DATE, 'yyyy-MM-dd')}
+		<div style="height:10px"></div>
+		<div style="margin:2px">{$P.date}</div>
+	{#/if}
+	<div>
+		<div style="float:left;width:20px">&nbsp;</div>
+		{#if ! $P.readonly}
+		<div style="float:left;width:20px"><a href="javascript:void(0)" onclick="deleteRecord('{toDatetime($T.record.RECORD_DATE, 'yyyy-MM-dd hh:mm')}', '{$T.record.RECORD_TYPE}', '{$T.record.ID}')"><img alt="删除" src="../images/buttons/delete.png" border="0" align="absmiddle" /></a></div>
+		{#/if}
+		<div style="float:left;width:70px">[{toDatetime($T.record.RECORD_DATE, 'hh:mm')}]</div>
+		<div style="float:left;width:50px">{toType($T.record.RECORD_TYPE)}</div>
+		<div style="float:left;width:70px">&nbsp;{toAmount($T.record.RECORD_TYPE, $T.record.AMOUNT)}</div>
+		<div style="float:left;">{$T.record.INFO}</div>
+		<div style="clear:both"></div>
+	</div>
+{#/for}

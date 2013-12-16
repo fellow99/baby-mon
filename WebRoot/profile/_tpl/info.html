@@ -1,0 +1,40 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+{#if $T.user.urlHead}
+<div style="float:left;text-align:center;margin:10px">
+	<img src="{$T.user.urlHead}" border="0" align="absmiddle" />
+</div>
+{#/if}
+<div style="float:left;text-align:left;margin:10px">
+	{#if $T.provider == "weibo"}
+		<div><a href="http://www.weibo.com/{$T.user.name}" target="_blank">{$T.user.nickname}</a></div>
+	{#/if}
+	{#if $T.provider == "qq"}
+		<div><a href="http://t.qq.com/{$T.user.name}" target="_blank">{$T.user.nickname}</a></div>
+	{#/if}
+	{#if $T.existsProfile == "true"}
+		<div><input type="button" value="升级资料库" onclick="update()" /></div>
+		<div><input type="button" value="备份资料库" onclick="window.location='download.jsp'" /></div>
+		<div><input type="button" value="清除资料库" onclick="deletes()" /></div>
+		<div><input type="button" value="重置资料库" onclick="reset()" /></div>
+	{#else}
+		<div style="color:red">您尚未创建资料库</div>
+		<div><input type="button" value="点击这里开始创建资料库" onclick="create()" /></div>
+	{#/if}
+</div>
+<div style="clear:both;"></div>
+
+{#if $T.existsProfile == true}
+<div style="float:left;width:150px;text-align:right;margin:3px">资料库版本：</div>
+<div style="float:left;margin:3px">{$T.profile.version}</div>
+<div style="clear:both;"></div>
+<div style="float:left;width:150px;text-align:right;margin:3px">开始使用时间：</div>
+<div style="float:left;margin:3px">{$T.profile.beginDate}</div>
+<div style="clear:both;"></div>
+<div style="float:left;width:150px;text-align:right;margin:3px">最近使用时间：</div>
+<div style="float:left;margin:3px">{$T.profile.recentDate}</div>
+<div style="clear:both;"></div>
+<div style="float:left;width:150px;text-align:right;margin:3px">记录数：</div>
+<div style="float:left;margin:3px">{$T.profile.recordCount}</div>
+<div style="clear:both;"></div>
+{#/if}

@@ -1,0 +1,16 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+{#param name=date value=''}
+{#foreach $T.records as record}
+	{#if $P.date != toDatetime($T.record.RECORD_DATE, 'yyyy-MM-dd')}
+		{#param name=date value=toDatetime($T.record.RECORD_DATE, 'yyyy-MM-dd')}
+		<div style="height:10px"></div>
+		<div style="margin:2px">{$P.date}</div>
+	{#/if}
+	<div>
+		<div style="float:left;width:20px">&nbsp;</div>
+		<div style="float:left;width:70px">[{toDatetime($T.record.RECORD_DATE, 'hh:mm')}]</div>
+		<div style="float:left;"><a href="javascript:void(0)" onclick="$('#info').val('{$T.record.INFO}')">{$T.record.INFO}</a></div>
+		<div style="clear:both"></div>
+	</div>
+{#/for}
