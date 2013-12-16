@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ba479062-cdb0-4054-aaed-61c411c2ba73">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SESSION_USER_ID" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from T_TEST_BASE where EMPLOYEE_ID = $P{SESSION_USER_ID}]]>
+	</queryString>
+	<field name="EMPLOYEE_ID" class="java.lang.String"/>
+	<field name="EMPLOYEE_CODE" class="java.lang.String"/>
+	<field name="EMPLOYEE_TYPE" class="java.lang.String"/>
+	<field name="NAME" class="java.lang.String"/>
+	<field name="DEPT_ID" class="java.lang.String"/>
+	<field name="SEX" class="java.lang.String"/>
+	<field name="ID_CODE" class="java.lang.String"/>
+	<field name="NATION" class="java.lang.String"/>
+	<field name="NATIVE_PLACE" class="java.lang.String"/>
+	<field name="BIRTHDAY" class="java.sql.Timestamp"/>
+	<field name="STATUS" class="java.lang.String"/>
+	<field name="WAGE" class="java.math.BigDecimal"/>
+	<variable name="variable1" class="java.lang.String"/>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="c9cebd3a-8227-4295-8497-62ed8083c7a8" x="0" y="0" width="555" height="79"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="36"/>
+				</textElement>
+				<text><![CDATA[测试报表]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="80" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="7d2309d1-2a44-4b2c-89fe-b14516403d25" x="0" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[ID：]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="01cf6800-238f-4c28-a020-43b9efbded18" x="100" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{EMPLOYEE_ID}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="900d2d8a-23d8-4a67-b19a-c6aed01d1fe9" x="0" y="20" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[教师号：]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="ec055b8c-2ad9-4de9-9b08-a95086e17701" x="100" y="20" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{EMPLOYEE_CODE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="964a2345-f5f4-435e-a1df-fa8d6ba0e202" x="0" y="40" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[姓名：]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="4767791c-32a8-4b46-80ad-96ca908f2c3c" x="100" y="40" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="6ff0d0ae-4d0a-4320-a64c-183e1b8d6a89" x="0" y="60" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[性别：]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="e1aa10ca-ffb4-43b3-ac28-7a1d4005631b" x="100" y="60" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{SEX}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

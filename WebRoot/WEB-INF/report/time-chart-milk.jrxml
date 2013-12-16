@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="time" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c343007d-fe7d-4f87-8a7a-05b54bf3a15b">
+	<property name="ireport.zoom" value="0.9982500000000003"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="88"/>
+	<queryString>
+		<![CDATA[select h.HOUR, t.AMOUNT from T_DM_HOUR h
+left join (
+select
+RECORD_TIME / (1000*60*60) RECORD_TIME,
+sum(amount) AMOUNT from V_RECORD
+where RECORD_TYPE = 'milk'
+group by RECORD_TIME / (1000*60*60)
+order by RECORD_DATE
+) t on t.RECORD_TIME = h.HOUR]]>
+	</queryString>
+	<field name="HOUR" class="java.lang.Integer"/>
+	<field name="AMOUNT" class="java.lang.Number"/>
+	<title>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="ea8de76f-92c5-4aa0-9735-eb5f2a41cbd4" x="0" y="0" width="555" height="50"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[喂奶时间分布]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="400" splitType="Stretch">
+			<bar3DChart>
+				<chart>
+					<reportElement uuid="34a3125d-99ba-4fb6-aa8a-90276ca536b2" x="0" y="0" width="555" height="400"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend>
+						<font size="18"/>
+					</chartLegend>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["喝奶"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{HOUR}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{AMOUNT}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot/>
+					<itemLabel/>
+				</bar3DPlot>
+			</bar3DChart>
+		</band>
+	</summary>
+</jasperReport>

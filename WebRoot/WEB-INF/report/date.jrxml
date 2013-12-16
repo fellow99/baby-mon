@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="date1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="df3b3e91-ad26-4919-8e3b-51a7173100ed">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<subDataset name="dataset" uuid="c8a38c61-93a5-4789-afb4-e976ac8dcd50">
+		<parameter name="dateFrom" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="dateTo" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select
+RECORD_DATE,
+(case when type.VALUE = '喝奶' then '1'||type.VALUE
+      when type.VALUE = '挤奶' then '2'||type.VALUE
+      when type.VALUE = '大便' then '3'||type.VALUE
+      else type.VALUE end) RECORD_TYPE,
+AMOUNT
+from V_DATE_RECORD t
+left join T_DM_RECORD_TYPE type on t.RECORD_TYPE = type.KEY
+where RECORD_TYPE <> 'info'
+and CAST(strftime(record_date) as long) >= $P{dateFrom}
+and CAST(strftime(record_date) as long) <= $P{dateTo}
+order by RECORD_DATE desc]]>
+		</queryString>
+		<field name="RECORD_DATE" class="java.util.Date"/>
+		<field name="RECORD_TYPE" class="java.lang.Object"/>
+		<field name="AMOUNT" class="java.lang.Object"/>
+	</subDataset>
+	<parameter name="dateFrom" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dateTo" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select 1 a]]>
+	</queryString>
+	<field name="a" class="java.lang.Object"/>
+	<title>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="92eacba3-5e3b-4cca-a74b-82b56c984459" x="0" y="0" width="555" height="50"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[日报表]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="255" splitType="Stretch">
+			<crosstab>
+				<reportElement uuid="30761b45-1ebe-450b-bb33-3839ec2732fc" x="0" y="0" width="555" height="255"/>
+				<crosstabDataset>
+					<dataset>
+						<datasetRun subDataset="dataset" uuid="c7f99fe5-0617-4726-809b-b27e8097e1e9">
+							<datasetParameter name="dateFrom">
+								<datasetParameterExpression><![CDATA[$P{dateFrom}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="dateTo">
+								<datasetParameterExpression><![CDATA[$P{dateTo}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+				</crosstabDataset>
+				<rowGroup name="RECORD_DATE" width="101">
+					<bucket order="Descending" class="java.util.Date">
+						<bucketExpression><![CDATA[$F{RECORD_DATE}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField pattern="yyyy-MM-dd">
+								<reportElement uuid="62d7fce7-a7c8-46f0-a0c4-15c9007ad6d2" style="Crosstab Data Text" x="0" y="0" width="100" height="30"/>
+								<textElement verticalAlignment="Middle">
+									<font size="16"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{RECORD_DATE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="RECORD_TYPE" height="30">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{RECORD_TYPE}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement uuid="d63cfa6c-b8b4-44b0-b412-219f7e579d30" style="Crosstab Data Text" x="0" y="0" width="70" height="30"/>
+								<textElement verticalAlignment="Middle">
+									<font size="16"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{RECORD_TYPE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents/>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="AMOUNTMeasure" class="java.lang.Number" calculation="Sum">
+					<measureExpression><![CDATA[$F{AMOUNT}]]></measureExpression>
+				</measure>
+				<crosstabCell width="70" height="30">
+					<cellContents>
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField pattern="###0.0;-###0.0" isBlankWhenNull="true">
+							<reportElement uuid="53061cf3-2b53-4c64-9050-9691902f30d5" style="Crosstab Data Text" x="0" y="0" width="70" height="30"/>
+							<textElement verticalAlignment="Middle">
+								<font size="16"/>
+							</textElement>
+							<textFieldExpression><![CDATA[($V{AMOUNTMeasure}.floatValue() == 0 ? null : $V{AMOUNTMeasure})]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell height="25" rowTotalGroup="RECORD_DATE">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement uuid="4fd91cd2-45fd-455f-9a24-0fccebf5c02c" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
+							<textElement/>
+							<textFieldExpression><![CDATA[$V{AMOUNTMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" columnTotalGroup="RECORD_TYPE">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement uuid="a0bbf50a-3848-4f64-822e-4e7447e00cad" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
+							<textElement/>
+							<textFieldExpression><![CDATA[$V{AMOUNTMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="RECORD_DATE" columnTotalGroup="RECORD_TYPE">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement uuid="7d0fd2b0-553b-4409-8d86-05141dee9ec5" style="Crosstab Data Text" x="0" y="0" width="50" height="25"/>
+							<textElement/>
+							<textFieldExpression><![CDATA[$V{AMOUNTMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

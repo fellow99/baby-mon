@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="date-chart" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="61fa4a4e-0b0c-4e34-9a18-8a4732b021cf">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dateFrom" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dateTo" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+t.RECORD_DATE,
+type.VALUE RECORD_TYPE, AMOUNT
+from V_DATE_RECORD t
+left join T_DM_RECORD_TYPE type on t.RECORD_TYPE = type.KEY
+where (RECORD_TYPE = 'height')
+and RECORD_DATE < (select distinct RECORD_DATE from V_DATE_RECORD ORDER BY RECORD_DATE desc limit 1)
+and CAST(strftime(record_date) as long) >= $P{dateFrom}
+and CAST(strftime(record_date) as long) <= $P{dateTo}]]>
+	</queryString>
+	<field name="RECORD_TYPE" class="java.lang.Object"/>
+	<field name="RECORD_DATE" class="java.util.Date"/>
+	<field name="AMOUNT" class="java.lang.Object"/>
+	<group name="RECORD_TYPE">
+		<groupExpression><![CDATA[$F{RECORD_TYPE}]]></groupExpression>
+	</group>
+	<title>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="8e0599a4-5621-45f5-97b7-000397f57c0d" x="0" y="0" width="555" height="50"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[身高图表]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="400" splitType="Stretch">
+			<lineChart>
+				<chart isShowLegend="true" renderType="image">
+					<reportElement uuid="a1d3944a-bc5c-4bac-922f-229d7071ce97" x="0" y="0" width="555" height="400"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend>
+						<font size="18"/>
+					</chartLegend>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{RECORD_TYPE}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{RECORD_DATE}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{AMOUNT}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot isShowLines="true" isShowShapes="true">
+					<plot labelRotation="-45.0"/>
+				</linePlot>
+			</lineChart>
+		</band>
+	</summary>
+</jasperReport>

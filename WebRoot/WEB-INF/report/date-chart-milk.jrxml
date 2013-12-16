@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="date-juice" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="fc5b0dd1-f510-4781-b80a-4db3deba31ba">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="dateFrom" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dateTo" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+(case when RECORD_TYPE = 'cow' then '牛奶'
+      when RECORD_TYPE = 'mimi' then '人奶'
+end) RECORD_TYPE,
+RECORD_DATE, AMOUNT
+from V_DATE_MILK_TYPE
+where 1=1
+and CAST(strftime(record_date) as long) >= $P{dateFrom}
+and CAST(strftime(record_date) as long) <= $P{dateTo}
+order by RECORD_DATE]]>
+	</queryString>
+	<field name="RECORD_TYPE" class="java.lang.String"/>
+	<field name="RECORD_DATE" class="java.util.Date"/>
+	<field name="AMOUNT" class="java.lang.Number"/>
+	<title>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="baa75e8d-a60a-490b-bcd4-48da35d2bc0f" x="0" y="0" width="555" height="50"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[牛奶占比]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="400" splitType="Stretch">
+			<stackedBar3DChart>
+				<chart>
+					<reportElement uuid="1a295a05-1418-46c2-b7d5-a629d46062a8" x="0" y="0" width="555" height="400"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend>
+						<font size="18"/>
+					</chartLegend>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{RECORD_TYPE}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{RECORD_DATE}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{AMOUNT}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot labelRotation="-45.0"/>
+					<itemLabel/>
+				</bar3DPlot>
+			</stackedBar3DChart>
+		</band>
+	</summary>
+</jasperReport>
